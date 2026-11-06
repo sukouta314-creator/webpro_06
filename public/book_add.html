@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>本を追加する</title>
+</head>
+<body>
+    <h2>本を追加する</h2>
+    <form action="/book_add">
+        <label for="id">ID</label>
+        <input type="number" name="id" id="id" required>
+
+        <label for="title">タイトル</label>
+        <input type="text" name="title" id="title" required>
+
+        <label for="author">著者</label>
+        <input type="text" name="author" id="author" required>
+
+        <input type="submit" value="登録">
+    </form>
+    <p><a href="/book">一覧を見る</a></p>
+</body>
+</html>

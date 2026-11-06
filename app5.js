@@ -4,6 +4,8 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use("/public", express.static(__dirname + "/public"));
 
+
+
 app.get("/hello1", (req, res) => {
   const message1 = "Hello world";
   const message2 = "Bon jour";
@@ -12,6 +14,67 @@ app.get("/hello1", (req, res) => {
 
 app.get("/hello2", (req, res) => {
   res.render('show', { greet1:"Hello world", greet2:"Bon jour"});
+});
+
+let station = [
+  { id:0, code:"????", name:"きさらぎ駅"},
+  { id:1, code:"JE01", name:"東京駅"},
+  { id:2, code:"JE07", name:"舞浜駅"},
+  { id:3, code:"JE12", name:"新習志野駅"},
+  { id:4, code:"JE13", name:"幕張豊砂駅"},
+  { id:5, code:"JE14", name:"海浜幕張駅"},
+  { id:6, code:"JE05", name:"新浦安駅"},
+];
+
+app.get("/keiyo", (req, res) => {
+  // 本来ならここにDBとのやり取りが入る
+  res.render('db1', { data: station });
+});
+
+
+// 追加後にデータ一覧を表示する版（例2）
+// フォームの action を "/keiyo_add_list" に変えると確認できる
+app.get("/keiyo_add", (req, res) => {
+  let id = Number(req.query.id);
+  let code = req.query.code;
+  let name = req.query.name;
+  let newdata = { id: id, code: code, name: name };
+  station.push( newdata );
+  res.render('db1', { data: station });
+});
+
+// やってみよう(2)(3)：駅以外のデータ（本）の一覧表示と追加
+let book = [
+  { id:1, title:"無職転生", author:"理不尽な孫の手" },
+  { id:2, title:"転生したらスライムだった件", author:"伏瀬＆みっつばー" },
+  { id:3, title:"この素晴らしい世界に祝福を", author:"三嶋くろね" },
+  { id:4, title:"Re:ゼロから始める異世界生活", author:"鼠色猫" },
+  { id:5, title:"幼女戦記", author:"カルロ・ゼン" },
+  { id:6, title:"オーバーロード", author:"丸山くがね" },
+  { id:7, title:"魔法科高校の劣等生", author:"佐島勤" },
+  { id:8, title:"ソードアート・オンライン(SAO)", author:"川原礫" },
+  { id:9, title:"痛いのは嫌なので防御力に極振りしたいと思います。", author:"夕蜜柑" },
+  { id:10, title:"ようこそ実力至上主義の教室へ", author:"衣笠彰梧" },
+  { id:11, title:"くま クマ 熊 ベアー", author:"くまなの" },
+  { id:12, title:"陰の実力者になりたくて！", author:"逢沢大介" },
+  { id:13, title:"乙女ゲームの破滅フラグしかない悪役令嬢に転生してしまった…", author:"山口悟" },
+  { id:14, title:"ありふれた職業で世界最強", author:"山口悟" },
+  { id:15, title:"ダンジョンに出会いを求めるのは間違っているだろうか", author:"大森藤ノ" },
+  { id:16, title:"この勇者が俺TUEEEくせに慎重すぎる", author:"土日月" },
+  { id:17, title:"転生した大聖女は、聖女であることをひた隠す", author:"十夜" },
+  { id:18, title:"盾の勇者の成り上がり", author:"アネコユサギ" },
+];
+
+app.get("/book", (req, res) => {
+  res.render('book', { data: book });
+});
+
+app.get("/book_add", (req, res) => {
+  let id = Number(req.query.id);
+  let title = req.query.title
+  let author = req.query.author;
+  book.push( { id: id, title: title, author: author } );
+  res.redirect('/book');   // 追加後は一覧を表示（/book に転送）
 });
 
 app.get("/icon", (req, res) => {
