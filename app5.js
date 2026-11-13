@@ -60,6 +60,19 @@ app.get("/keiyo2", (req, res) => {
   res.render('keiyo2', { data: station2 });
 });
 
+// 駅の追加（やってみよう(3)）：項目が増えている点に注意
+// 例：/keiyo2_add?id=8&code=JE19&name=蘇我駅&change=xxx&passengers=100&distance=50
+app.get("/keiyo2_add", (req, res) => {
+  const id = Number(req.query.id);
+  const code = req.query.code;
+  const name = req.query.name;
+  const change = req.query.change || "";
+  const passengers = Number(req.query.passengers);
+  const distance = Number(req.query.distance);
+  station2.push( { id, code, name, change, passengers, distance } );
+  res.redirect('/keiyo2');   // 追加後は一覧へ
+});
+
 // 詳細表示（URLの :number は station2 の配列番号）
 app.get("/keiyo2/:number", (req, res) => {
   // 本来ならここにDBとのやり取りが入る
